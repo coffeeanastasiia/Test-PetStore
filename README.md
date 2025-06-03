@@ -1,6 +1,9 @@
 # Test-PetStore
 Tests for PetStore 4 endpoits
 
+time spent: 4h
+used ChatGPT to make everything beautiful ✨
+
 ## 🗓 Task 1: Postman Collection (Swagger: https://petstore.swagger.io)
 
 ### ✅ Endpoints
