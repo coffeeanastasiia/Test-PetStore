@@ -1,0 +1,311 @@
+{
+	"info": {
+		"_postman_id": "41019f30-0c8b-471f-80ed-2856d6d4fc6c",
+		"name": "PetStore Task",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "45552266",
+		"_collection_link": "https://anastasiiastudy.postman.co/workspace/AnastasiiaStudy's-Workspace~f873dd7c-0e72-46f9-8031-589e061a97e6/collection/45552266-41019f30-0c8b-471f-80ed-2856d6d4fc6c?action=share&source=collection_link&creator=45552266"
+	},
+	"item": [
+		{
+			"name": "Create a pet",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Name is correct\", function () {\r",
+							"    pm.expect(pm.response.json().name).to.eql(pm.variables.get(\"petName\"));\r",
+							"});\r",
+							"\r",
+							"setTimeout(function () {\r",
+							"    console.log(\"Waiting before GET...\");\r",
+							"}, 20000); // Wait 20 seconds"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": {{petId}},\r\n  \"name\": \"{{petName}}\",\r\n  \"status\": \"{{initialStatus}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://petstore.swagger.io/v2/pet",
+					"protocol": "https",
+					"host": [
+						"petstore",
+						"swagger",
+						"io"
+					],
+					"path": [
+						"v2",
+						"pet"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check if pet was created",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Pet exists\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    pm.expect(pm.response.json().id).to.eql(parseInt(pm.variables.get(\"petId\")));\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://petstore.swagger.io/v2/pet/{{petId}}/",
+					"protocol": "https",
+					"host": [
+						"petstore",
+						"swagger",
+						"io"
+					],
+					"path": [
+						"v2",
+						"pet",
+						"{{petId}}",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Change a pet",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Updated successfully\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    pm.expect(pm.response.json().name).to.eql(pm.variables.get(\"updatedPetName\"));\r",
+							"});\r",
+							"\r",
+							"setTimeout(function () {\r",
+							"    console.log(\"Waiting before GET...\");\r",
+							"}, 10000); // Wait 10 seconds"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": {{petId}},\r\n  \"name\": \"{{updatedPetName}}\",\r\n  \"status\": \"{{updatedStatus}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://petstore.swagger.io/v2/pet/",
+					"protocol": "https",
+					"host": [
+						"petstore",
+						"swagger",
+						"io"
+					],
+					"path": [
+						"v2",
+						"pet",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check if pet was created Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Final name and status correct\", function () {\r",
+							"    const res = pm.response.json();\r",
+							"    pm.expect(res.name).to.eql(pm.variables.get(\"updatedPetName\"));\r",
+							"    pm.expect(res.status).to.eql(\"sold\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://petstore.swagger.io/v2/pet/{{petId}}/",
+					"protocol": "https",
+					"host": [
+						"petstore",
+						"swagger",
+						"io"
+					],
+					"path": [
+						"v2",
+						"pet",
+						"{{petId}}",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					"//if (!pm.variables.get(\"petId\")) {\r",
+					"    //const petId = Math.floor(Math.random() * 100000);\r",
+					"    //pm.variables.set(\"petId\", petId);\r",
+					"    //pm.variables.set(\"petName\", \"Original_\" + petId);\r",
+					"  //  pm.variables.set(\"updatedPetName\", \"Update_\" + petId);\r",
+					"//}\r",
+					"\r",
+					"if (!pm.variables.get(\"petId\")) {\r",
+					"    const petId = Math.floor(Math.random() * 100000);\r",
+					"    const statuses = [\"available\", \"pending\", \"sold\"];\r",
+					"    \r",
+					"    const initialStatus = statuses[Math.floor(Math.random() * statuses.length)];\r",
+					"\r",
+					"    // updatedStatus має бути інший, ніж initialStatus\r",
+					"    let updatedStatus;\r",
+					"    do {\r",
+					"        updatedStatus = statuses[Math.floor(Math.random() * statuses.length)];\r",
+					"    } while (updatedStatus === initialStatus);\r",
+					"\r",
+					"    pm.variables.set(\"petId\", petId);\r",
+					"    pm.variables.set(\"petName\", \"Original_\" + petId);\r",
+					"    pm.variables.set(\"updatedPetName\", \"Update_\" + petId);\r",
+					"    pm.variables.set(\"initialStatus\", initialStatus);\r",
+					"    pm.variables.set(\"updatedStatus\", updatedStatus);\r",
+					"}\r",
+					"\r",
+					"\r",
+					"console.log(\"petId:\", pm.variables.get(\"petId\"));\r",
+					"console.log(\"petName:\", pm.variables.get(\"petName\"));\r",
+					"console.log(\"updatedPetName:\", pm.variables.get(\"updatedPetName\"));\r",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "pet_id",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "petName",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "updatedPetName",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "initialStatus",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "updatedStatus",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
